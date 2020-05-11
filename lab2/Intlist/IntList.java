@@ -5,7 +5,7 @@ import java.util.Formatter;
  * with a large number of additional methods.
  *
  * @author P. N. Hilfinger, with some modifications by Josh Hug and melaniecebula
- *         [Do not modify this file.]
+ * [Do not modify this file.]
  */
 public class IntList {
     /**
@@ -20,16 +20,16 @@ public class IntList {
     /**
      * A List with first FIRST0 and rest REST0.
      */
-    public IntList(int first0, IntList rest0) {
-        first = first0;
-        rest = rest0;
+    public IntList(final int first0, final IntList rest0) {
+        this.first = first0;
+        this.rest = rest0;
     }
 
     /**
      * A List with null rest, and first = 0.
      */
     public IntList() {
-    /* NOTE: public IntList () { }  would also work. */
+        /* NOTE: public IntList () { }  would also work. */
         this(0, null);
     }
 
@@ -51,7 +51,7 @@ public class IntList {
         if (L == null) {
             return null;
         }
-        IntList res = new IntList(L.first * L.first, null);
+        final IntList res = new IntList(L.first * L.first, null);
         IntList ptr = res;
         L = L.rest;
         while (L != null) {
@@ -65,7 +65,7 @@ public class IntList {
     /**
      * Returns a list equal to L with all elements squared. Non-destructive.
      */
-    public static IntList squareListRecursive(IntList L) {
+    public static IntList squareListRecursive(final IntList L) {
         if (L == null) {
             return null;
         }
@@ -80,33 +80,26 @@ public class IntList {
      * *  elements of B.  May modify items of A. Don't use 'new'.
      */
 
-    public static IntList dcatenate(IntList A, IntList B) {
+    public static IntList dcatenate(final IntList A, final IntList B) {
         //TODO:  fill in method
-        return null;
+        if (A == null) {
+            return B;
+        }
+        A.rest = IntList.dcatenate(A.rest, B);
+        return A;
     }
 
     /**
      * Returns a list consisting of the elements of A followed by the
      * * elements of B.  May NOT modify items of A.  Use 'new'.
      */
-    public static IntList catenate(IntList A, IntList B) {
+    public static IntList catenate(final IntList A, final IntList B) {
         //TODO:  fill in method
-        return null;
+        if (A == null) {
+            return B;
+        }
+        return new IntList(A.first, IntList.catenate(A.rest, B));
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     /**
@@ -118,15 +111,16 @@ public class IntList {
 
     @Override
     public int hashCode() {
-        return first;
+        return this.first;
     }
 
     /**
      * Returns a new IntList containing the ints in ARGS. You are not
      * expected to read or understand this method.
      */
-    public static IntList of(Integer... args) {
-        IntList result, p;
+    public static IntList of(final Integer... args) {
+        final IntList result;
+        IntList p;
 
         if (args.length > 0) {
             result = new IntList(args[0], null);
@@ -146,7 +140,8 @@ public class IntList {
      * as THIS. Cannot handle IntLists with cycles. You are not expected to
      * read or understand this method.
      */
-    public boolean equals(Object x) {
+    @Override
+    public boolean equals(final Object x) {
         if (!(x instanceof IntList)) {
             return false;
         }
@@ -176,7 +171,7 @@ public class IntList {
      * doesn't get stuck in an infinite loop.
      */
 
-    private int detectCycles(IntList A) {
+    private int detectCycles(final IntList A) {
         IntList tortoise = A;
         IntList hare = A;
 
@@ -211,10 +206,10 @@ public class IntList {
     /** Outputs the IntList as a String. You are not expected to read
      * or understand this method. */
     public String toString() {
-        Formatter out = new Formatter();
+        final Formatter out = new Formatter();
         String sep;
         sep = "(";
-        int cycleLocation = detectCycles(this);
+        final int cycleLocation = detectCycles(this);
         int cnt = 0;
 
         for (IntList p = this; p != null; p = p.rest) {
